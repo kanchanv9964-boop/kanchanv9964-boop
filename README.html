@@ -1,0 +1,111 @@
+#<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticker Creator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Custom Sticker Creator</h1>
+    <div class="container">
+        <div class="controls">
+            <input type="file" id="imageUpload" accept="image/*">
+            <input type="text" id="textInput" placeholder="Add text">
+            <button id="addTextBtn">Add Text</button>
+            <button id="downloadBtn">Download Sticker</button>
+        </div>
+        <canvas id="stickerCanvas" width="400" height="400"></canvas>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html># Hi there 👋
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+const canvas = document.getElementById('stickerCanvas');
+const ctx = canvas.getContext('2d');
+const imageUpload = document.getElementById('imageUpload');
+const textInput = document.getElementById('textInput');
+const addTextBtn = document.getElementById('addTextBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+
+let uploadedImage = null;
+
+// Handle image upload
+imageUpload.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+                uploadedImage = img;
+                drawCanvas();
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Add text to canvas
+addTextBtn.addEventListener('click', () => {
+    if (textInput.value) {
+        ctx.font = '30px Arial';
+        ctx.fillStyle = 'black';
+        ctx.fillText(textInput.value, 50, 50); // Basic positioning; enhance for drag/resize
+        textInput.value = '';
+    }
+});
+
+// Draw canvas
+function drawCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (uploadedImage) {
+        ctx.drawImage(uploadedImage, 0, 0, canvas.width, canvas.height);
+    }
+}
+
+// Download as PNG
+downloadBtn.addEventListener('click', () => {
+    const link = document.createElement('a');
+    link.download = 'sticker.png';
+    link.href = canvas.toDataURL();
+    link.click();
+});
+<!--
+**kanchanv9964-boop/kanchanv9964-boop** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+
+Here are some ideas to get you started:
+
+- 🔭 I’m currently working on ...
+- 🌱 I’m currently learning ...
+- 👯 I’m looking to collaborate on ...
+- 🤔 I’m looking for help with ...
+- 💬 Ask me about ...
+- 📫 How to reach me: ...
+- 😄 Pronouns: ...
+- ⚡ Fun fact: ...
+-->
